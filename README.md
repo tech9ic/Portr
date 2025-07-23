@@ -13,11 +13,8 @@
 </pre>
 </div>
 
-# Portr
 
-**Portr** is a beginner-friendly, terminal-based tool designed to monitor **outbound network connections on Windows**.
-
-Built in **Rust**, Portr helps you visualize which processes are making network connections from your machine, with a strong emphasis on **clarity**, **security**, and **educational value**.
+**Portr** is a beginner-friendly, terminal-based tool designed to monitor **outbound network connections on Windows**. Built in **Rust**, Portr helps you visualize which processes are making network connections from your machine, with a strong emphasis on **clarity**, **security**, and **educational value**.
 
 ---
 
