@@ -62,8 +62,8 @@
 ### 2. Clone & Build
 
 ```sh
-git clone <your-portr-repo-url>
-cd portr-windows
+git clone https://github.com/tech9ic/Portr
+cd Portr
 cargo build --release
 ```
 
@@ -76,7 +76,7 @@ cargo run --release
 Or run the binary directly from:
 
 ```
-target/release/portr-windows.exe
+target/release/Portr.exe
 ```
 
 ---
