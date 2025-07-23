@@ -1,253 +1,164 @@
-\# Portr 
-- by NeRDs (Network Risk Defenders)
+<div align="center">
+<pre>
+╔════════════════════════════════════════════╗
+║ ██████╗  ██████╗ ██████╗ ████████╗██████╗  ║
+║ ██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔══██╗ ║
+║ ██████╔╝██║   ██║██████╔╝   ██║   ██████╔╝ ║
+║ ██╔═══╝ ██║   ██║██╔══██╗   ██║   ██╔══██╗ ║
+║ ██║     ╚██████╔╝██║  ██║   ██║   ██║  ██║ ║
+║ ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝ ║
+╚════════════════════════════════════════════╝
 
-===
+   by NeRDs — **Ne**twork **R**isk **D**efender**s**
+</pre>
+</div>
 
-# Portr is a beginner-friendly, terminal-based tool to monitor outbound network connections on Windows. Built in Rust, Portr helps you see which processes are making network connections from your machine, with a focus on clarity, security, and learning.
+# Portr
 
-# 
+**Portr** is a beginner-friendly, terminal-based tool designed to monitor **outbound network connections on Windows**.
 
-# ---
+Built in **Rust**, Portr helps you visualize which processes are making network connections from your machine, with a strong emphasis on **clarity**, **security**, and **educational value**.
 
-# 
+---
 
-# \## 🚦 What Makes Portr Different from netstat?
+## 🚦 What Makes Portr Different from `netstat`?
 
-# 
+| Feature                | `netstat`                 | **Portr**                               |
+| ---------------------- | ------------------------- | --------------------------------------- |
+| **Target Audience**    | Advanced users, sysadmins | Beginners, learners, everyone           |
+| **Output Style**       | Static, raw text          | Real-time, interactive TUI              |
+| **Process Info**       | PID (sometimes)           | PID + Process Name                      |
+| **DNS Resolution**     | Optional                  | _Planned_                               |
+| **Highlighting**       | None                      | Blacklist/Whitelist/Suspicious Ports ⚠️ |
+| **User Customization** | None                      | Yes (User-defined, learns over time)    |
+| **Self-Learning**      | ❌ No                     | ✅ Yes                                  |
+| **Security Awareness** | ❌ No                     | ✅ Yes                                  |
+| **Educational Value**  | ❌ Low                    | ✅ High                                 |
+| **Extensibility**      | Limited                   | High (Open-source in Rust ❤️)           |
+| **Platform Support**   | Most OSes                 | Windows (for now)                       |
 
-# | Feature                   | netstat                   | Portr (Your Tool)                     |
+---
 
-# | ------------------------- | ------------------------- | ------------------------------------- |
+## ✨ Features
 
-# | \*\*Target Audience\*\*       | Advanced users, sysadmins | Beginners, learners, everyone         |
+- **Live TUI:** See live-updating outbound TCP/UDP connections.
+- **Full Connection Info:** Includes local IP/port, remote IP/port, PID, and process name.
+- **Smart Highlighting:**
+  - 🔴 **Blacklisted connections**
+  - 🟢 **Whitelisted connections**
+  - 🟡 **Suspicious ports**
+- **Interactive List Management:**
+  - Press `b` to blacklist a selected connection.
+  - Press `w` to whitelist.
+- **Footer Help:** Always shows `"Press 'q' or Esc to quit"`.
+- **Clean Lists:** No duplicates in blacklist or whitelist.
+- **Beginner-first Design:** Clean, fast, intuitive.
 
-# | \*\*Output Style\*\*          | Static, raw text          | Real-time, interactive TUI            |
+---
 
-# | \*\*Process Info\*\*          | PID (sometimes)           | PID + Process Name (always)           |
+## 📦 Installation
 
-# | \*\*DNS Resolution\*\*        | Optional, mixed in output | (Planned)                             |
+### 1. Install Rust
 
-# | \*\*Highlighting/Flagging\*\* | None                      | Blacklist/Whitelist, suspicious ports |
+👉 [https://rustup.rs](https://rustup.rs)
 
-# | \*\*User Customization\*\*    | None                      | User-defined lists (learns)           |
+### 2. Clone & Build
 
-# | \*\*Self-Learning\*\*         | No                        | Yes (adapts to user input)            |
+```sh
+git clone <your-portr-repo-url>
+cd portr-windows
+cargo build --release
+```
 
-# | \*\*Security Awareness\*\*    | No                        | Yes (flags suspicious activity)       |
+### 3. Run Portr
 
-# | \*\*Educational Value\*\*     | Low                       | High (teaches as you use)             |
+```sh
+cargo run --release
+```
 
-# | \*\*Extensibility\*\*         | Limited                   | High (open-source, Rust)              |
+Or run the binary directly from:
 
-# | \*\*Platform Support\*\*      | Most OSes                 | Windows (this version)                |
+```
+target/release/portr-windows.exe
+```
 
-# 
+---
 
-# ---
+## 🚀 Usage
 
-# 
+Launch Portr in a terminal. You'll see live outbound connections in a navigable table.
 
-# \## ✨ Features
+### Keybindings
 
-# 
+| Key         | Action                                   |
+| ----------- | ---------------------------------------- |
+| `↑ / ↓`     | Move selection                           |
+| `b`         | Add selected remote IP/port to blacklist |
+| `w`         | Add selected remote IP/port to whitelist |
+| `q` / `Esc` | Quit Portr                               |
 
-# \- Real-time, interactive terminal UI (TUI) with live network data
+> ⚡ You’ll see confirmation messages after actions.  
+> ℹ️ Help message is always shown in the footer.
 
-# \- See all outbound TCP/UDP connections, with local/remote IP, port, PID, and process name
+---
 
-# \- Highlight connections:
+## ⚙️ Configuration
 
-# &nbsp; - \*\*Red\*\*: Blacklisted IPs/ports (from `blacklist.txt`)
+Portr uses two editable plain text files:
 
-# &nbsp; - \*\*Green\*\*: Whitelisted IPs/ports (from `whitelist.txt`)
+- **`blacklist.txt`** — List IPs, domains, or ports to block
+- **`whitelist.txt`** — List IPs, domains, or ports to allow
 
-# &nbsp; - \*\*Yellow\*\*: Suspicious ports (commonly used by malware/hackers)
+### Notes:
 
-# \- Select rows with Up/Down keys
+- One entry per line.
+- Lines starting with `#` or empty lines are ignored.
+- You can modify these manually or interactively in the TUI.
 
-# \- Add remote IP/port to blacklist (`b`) or whitelist (`w`) directly from the TUI
+---
 
-# \- Confirmation messages for actions
+## 🛡️ Suspicious Ports
 
-# \- Permanent footer/help line: "Press 'q' or Esc to quit"
+Portr flags outbound connections to suspicious ports (commonly used by malware or hackers):
 
-# \- Reads and updates `blacklist.txt` and `whitelist.txt` in real time
+Examples:
 
-# \- No duplicate entries in lists
+```
+23, 6667, 31337, 12345, 54321, 4444
+```
 
-# \- Beginner-friendly, clear, and fast
+⚠️ These are hardcoded for now — but you can customize them in the source.
 
-# 
+---
 
-# ---
+## 📝 Roadmap
 
-# 
+- [ ] DNS resolution
+- [ ] Log/export connections to file
+- [ ] Filter/sort/search/scroll inside TUI
+- [ ] Remove from lists within the TUI
+- [ ] Cross-platform support (Linux/macOS)
+- [ ] Threat intelligence feed integration
 
-# \## 📦 Installation
+---
 
-# 
+## 🤝 Contributing
 
-# 1\. \*\*Install Rust\*\* (if you haven't):
+We welcome contributions, bug reports, and feature suggestions!
 
-# &nbsp;  https://rustup.rs/
+Feel free to:
 
-# 
+- Fork the repo
+- Open issues
+- Submit pull requests
 
-# 2\. \*\*Clone the repo and build:\*\*
+---
 
-# 
+## 📄 License
 
-# &nbsp;  ```sh
+MIT License — See [`LICENSE`](LICENSE) file for more details.
 
-# &nbsp;  git clone <your-portr-repo-url>
+---
 
-# &nbsp;  cd portr-windows
-
-# &nbsp;  cargo build --release
-
-# &nbsp;  ```
-
-# 
-
-# 3\. \*\*Run Portr:\*\*
-
-# &nbsp;  ```sh
-
-# &nbsp;  cargo run --release
-
-# &nbsp;  ```
-
-# &nbsp;  Or run the binary from `target/release/portr-windows.exe`.
-
-# 
-
-# ---
-
-# 
-
-# \## 🚀 Usage
-
-# 
-
-# \- Launch Portr in your terminal.
-
-# \- The TUI will show a live-updating table of all outbound connections.
-
-# \- Use \*\*Up/Down\*\* arrows to select a row.
-
-# \- Press \*\*b\*\* to add the selected remote IP/port to the blacklist.
-
-# \- Press \*\*w\*\* to add the selected remote IP/port to the whitelist.
-
-# \- Press \*\*q\*\* or \*\*Esc\*\* to quit.
-
-# \- Confirmation messages appear at the bottom for 2 seconds.
-
-# \- The footer always shows how to quit.
-
-# 
-
-# \### \*\*Keybindings\*\*
-
-# 
-
-# | Key     | Action                                   |
-
-# | ------- | ---------------------------------------- |
-
-# | Up/Down | Move selection                           |
-
-# | b       | Add selected remote IP/port to blacklist |
-
-# | w       | Add selected remote IP/port to whitelist |
-
-# | q / Esc | Quit Portr                               |
-
-# 
-
-# ---
-
-# 
-
-# \## ⚙️ Configuration
-
-# 
-
-# \- \*\*blacklist.txt\*\*: List of IPs, domains, or ports to flag as suspicious (one per line).
-
-# \- \*\*whitelist.txt\*\*: List of IPs, domains, or ports to mark as trusted (one per line).
-
-# \- You can edit these files manually or add entries from the TUI.
-
-# \- Comments (lines starting with `#`) and blank lines are ignored.
-
-# 
-
-# ---
-
-# 
-
-# \## 🛡️ Suspicious Ports
-
-# 
-
-# Portr highlights connections to ports commonly used by malware, bots, or hacking tools (e.g., 6667, 31337, 12345, 23, etc.) in \*\*yellow\*\*. You can customize this list in the source code.
-
-# 
-
-# ---
-
-# 
-
-# \## 📝 Additional Features \& Ideas for future
-
-# 
-
-# \- \[ ] DNS resolution for remote IPs/domains
-
-# \- \[ ] Export logs or snapshots to a file
-
-# \- \[ ] Filtering/searching in the TUI
-
-# \- \[ ] Remove entries from blacklist/whitelist from the TUI
-
-# \- \[ ] Advanced TUI features (scrolling, sorting, column resizing)
-
-# \- \[ ] Cross-platform support (Linux/macOS)
-
-# \- \[ ] More security awareness (threat intelligence integration)
-
-# 
-
-# ---
-
-# 
-
-# \## 🤝 Contributing
-
-# 
-
-# Contributions, bug reports, and feature requests are welcome! Please open an issue or pull request.
-
-# 
-
-# ---
-
-# 
-
-# \## 📄 License
-
-# 
-
-# MIT License. See \[LICENSE](LICENSE) for details.
-
-# 
-
-# ---
-
-# 
-
-# \*\*Portr is a project by NeRDs (Network Risk Defenders).\*\*
-
-
-
+> **Portr** — Making network visibility **simple**, **secure**, and **educational**.  
+> Built with 💛 by **tech9ic @ NeRDs (Network Risk Defenders)**
